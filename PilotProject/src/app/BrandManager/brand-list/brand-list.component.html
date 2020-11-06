@@ -1,0 +1,222 @@
+<div class="navbar">
+  <td>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search Brand Name"
+      [(ngModel)]="nameFilter"
+    />
+  </td>
+  <div class="float-right">
+    <a class="btn btn-success add-btn" id="addBrandInfoModal" (click)=openFormAdd()
+      ><i class="fas fa-plus-square"></i> Add Brand</a
+    >
+  </div>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th (click)="sortOn('id')">
+        ID
+        <img
+          *ngIf="check"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA4klEQVRIS+2V4RHBQBCFXyqgA3SgBCpAB1RGCTqgBCXQARUwb+bO7Cy53b1M4o/7m9vv27285Br0vJqe+RhcsACwBzCtnOwKYAfgnOv1BNwwqYTnMjJmbYJnR/gHV0/wc8EjtTgyJn03HpmAcIaAiy+xJAkLMvySBHNDEhJIOMFcFJUkboGGn5JgaUhcgm/wcRLcAZQkLsERwCYdBTvP8BwgKeHelUiWS8D9LGRyNFxKmKi1iq1bUPth/wXmybUeEZNh/Wcs+k3eJ/pfxMQcOtwJhG9LF47VXfj54HdyuEOr4AVEpjUZ3bLzowAAAABJRU5ErkJggg=="
+        />
+        <img
+          *ngIf="check == false"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA7ElEQVRIS+2VWxHCMBBFTxWAA8ABEsAJOMAB4AAH4AQkIAEcgAKYO9MymSXJbNNp+aFfbbK5Z1/pVvT8VD3rMzhgARyBaWFkN2ANXJrzNgIZTArFm2PSmKUAr47iX7o2gj+gdYr2wAYYJWrzBA7A1ux/Up+rgcR3wLxuOwuRuNr6WtuFEBfgASxrAQsJxbV3BsZBFC6A7GMQrTeex8S17wbEIFpTWlLirQEWou+ceBEghOjd5tw2WasUhYdVEz1hQWMdXAzw/qp+B1AKUrfW6/09nCf2Jqu/Tx1mgsRXuYHj9dJtN/hMdnvmNXwDDjk1GcvtuWUAAAAASUVORK5CYII="
+        />
+      </th>
+      <th (click)="sortOn('brandName')">
+        Brand Name
+        <img
+          *ngIf="check"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA4klEQVRIS+2V4RHBQBCFXyqgA3SgBCpAB1RGCTqgBCXQARUwb+bO7Cy53b1M4o/7m9vv27285Br0vJqe+RhcsACwBzCtnOwKYAfgnOv1BNwwqYTnMjJmbYJnR/gHV0/wc8EjtTgyJn03HpmAcIaAiy+xJAkLMvySBHNDEhJIOMFcFJUkboGGn5JgaUhcgm/wcRLcAZQkLsERwCYdBTvP8BwgKeHelUiWS8D9LGRyNFxKmKi1iq1bUPth/wXmybUeEZNh/Wcs+k3eJ/pfxMQcOtwJhG9LF47VXfj54HdyuEOr4AVEpjUZ3bLzowAAAABJRU5ErkJggg=="
+        />
+        <img
+          *ngIf="check == false"
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA7ElEQVRIS+2VWxHCMBBFTxWAA8ABEsAJOMAB4AAH4AQkIAEcgAKYO9MymSXJbNNp+aFfbbK5Z1/pVvT8VD3rMzhgARyBaWFkN2ANXJrzNgIZTArFm2PSmKUAr47iX7o2gj+gdYr2wAYYJWrzBA7A1ux/Up+rgcR3wLxuOwuRuNr6WtuFEBfgASxrAQsJxbV3BsZBFC6A7GMQrTeex8S17wbEIFpTWlLirQEWou+ceBEghOjd5tw2WasUhYdVEz1hQWMdXAzw/qp+B1AKUrfW6/09nCf2Jqu/Tx1mgsRXuYHj9dJtN/hMdnvmNXwDDjk1GcvtuWUAAAAASUVORK5CYII="
+        />
+      </th>
+      <th>Logo</th>
+      <th>Description</th>
+      <th (click)="sortOn('amount')">Amount Product</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let item of brandList
+          | search: nameFilter
+          | sort: sortBy:sortValue
+          | paginate
+            : {
+                id: 'listing-pagination',
+                itemsPerPage: 5,
+                currentPage: page,
+                totalItems: totalRecord
+              }
+      "
+    >
+      <td>{{ item.brandId }}</td>
+      <td>{{ item.brandName }}</td>
+      <td>
+        <img id="images" [src]="this.brandService.ROOT_URL + item.logo" />
+      </td>
+      <td>{{ item.description }}</td>
+      <td>{{ item.amount }}</td>
+      <td>
+        <button type="button" class="btn btn-default" (click)="onEdit(item)">
+          Edit
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onFormDelete(item.brandId)"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <pagination-controls
+    style="text-align: center"
+    id="listing-pagination"
+    maxSize="50"
+    directionLinks="true"
+    (pageChange)="page = $event"
+  ></pagination-controls>
+</div>
+
+<!-- modal -->
+<app-modal #modal>
+  <div class="app-modal-header">
+    <legend *ngIf="check == false">EDIT Brand</legend>
+    <legend *ngIf="check == true">ADD Brand</legend>
+  </div>
+  <div class="app-modal-body">
+    <form #formBrand="ngForm" autocomplete="false" novalidate (ngSubmit)="onSubmitForm(formBrand)">
+      <div class="form-group">
+        <label for="">Brand Name</label>
+        <input
+          type="text"
+          class="form-control"
+          minlength="3"
+          maxlength="20"
+          required
+          [(ngModel)]="brandEdit.brandName"
+          name="txtBrandName"
+          #brandName="ngModel"
+        />
+        <span class="label label-danger"
+          *ngIf="brandName.errors?.required">
+          Tên không được để trống 
+         </span>
+         <span class="label label-danger"
+          *ngIf="brandName.errors?.minlength">
+          Tên không được nhỏ hơn 3 kí tự
+         </span>
+         <span class="label label-danger"
+          *ngIf="brandName.errors?.maxlength">
+          Tên không được dài quá 20 ký tự
+         </span>
+         <span class="label label-danger"
+          *ngIf="checkDuplicate == true">
+          Tên đã được sử dụng
+         </span>
+      </div>
+      <div class="form-group">
+        <label for="logo">Logo <span class="required-field">(*)</span></label>
+        <div *ngIf="check == false" class="preview-image-upload" id="logoImg">
+          <img
+            class="image-product"
+            [src]="'http://localhost:8881/' + brandEdit.logo"
+            alt="image"
+            [style.src]="brandEdit.logo"
+          />
+          <!-- src="http://localhost:8881/images/image-demo.png"           -->
+        </div>
+        <div *ngIf="check == true" class="preview-image-upload" id="logoImg">
+          <img
+            class="image-product"
+            src="http://localhost:8881/images/image-demo.png"
+            alt="image"
+            [style.src]="brandEdit.logo"
+          />
+          <!-- src="http://localhost:8881/images/image-demo.png"           -->
+        </div>
+        <input
+          type="file"
+          class="form-control upload-image"
+          accept="image/*"
+          required
+          (change)="imageChange($event.target.files)"
+          [ngModel]="brandEdit.logoFiles"
+          name="logoFiles"
+          #logoFiles="ngModel" 
+        />
+        <span class="label label-danger"
+         *ngIf="check==true ? logoFiles.errors?.required : ''">
+         Ảnh không đươc để trống 
+         </span>
+        <input type="hidden" class="old-img" id="logo" name="logo" />
+      </div>
+      <div class="form-group">
+        <label for="">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          required
+          [(ngModel)]="brandEdit.description"
+          name="txtDesscription"
+          #description="ngModel"
+        />
+        <span class="label label-danger"
+         *ngIf="description.errors?.required">
+          Mô tả ngắn
+         </span>
+      </div>
+      <button type="button" (click)="cancel()" class="btn btn-secondary-outline">Cancel</button>
+      <button
+        *ngIf="check == false"
+        type="submit"
+        class="btn btn-primary"
+      
+      >
+        Save
+      </button>
+      <button
+        *ngIf="check == true"
+        type="submit"
+        class="btn btn-primary"
+        
+      >
+        Add brand
+      </button>
+    </form>
+  </div>
+  <div class="app-modal-footer">
+  
+  </div>
+</app-modal>
+
+<app-popup-delete #formDelete>
+  <div class="app-modal-header">
+    <legend>DELETE Brand</legend>
+  </div>
+  <div class="app-modal-body">
+    <h1>Confirm ???</h1>
+  </div>
+  <div class="app-modal-footer">
+    <!-- footer đây -->
+    <button (click)="cancelFormDelete()" class="btn btn-secondary-outline">
+      Cancel
+    </button>
+    <button type="submit" class="btn btn-primary" (click)="onDelete()">
+      YES
+    </button>
+  </div>
+</app-popup-delete>

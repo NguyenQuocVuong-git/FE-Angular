@@ -1,0 +1,20 @@
+<form>
+    <div [class]="isShow?'modal-show':''" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+           <ng-content select="'.app-modal-header'"></ng-content>
+            <button (click)="hide()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <ng-content select="'.app-modal-body'"></ng-content>
+          </div>
+          <div class="modal-footer">
+              <ng-content select="'.app-modal-footer'"></ng-content>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>

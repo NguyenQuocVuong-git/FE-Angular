@@ -1,0 +1,24 @@
+.app-modal-body{
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.table thead th, .table tbody td, .table-bordered th {
+	/* border: 1px solid #333; */
+	border-radius: 5px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+}
+
+#addBrandInfoModal{
+    margin-left: 20px;
+}
+
+tbody img {
+    height: 80px;
+    width: 100px;
+}
